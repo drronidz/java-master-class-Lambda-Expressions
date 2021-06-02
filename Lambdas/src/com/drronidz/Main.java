@@ -12,8 +12,9 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        new Thread(new CodeToRun()).start();
 
+
+        new Thread(new CodeToRun()).start();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -58,11 +59,35 @@ public class Main {
             }
         });
 
+        Collections.sort(employees, (employeeOne, employeeTwo) ->
+                employeeOne.getName().compareTo(employeeTwo.getName()));
+
         System.out.println("######################################");
 
         for (Employee employee : employees) {
             System.out.println(employee.getName());
         }
+
+//        String sillyString = doStringStuff(new UpperConcat() {
+//            @Override
+//            public String upperAndConcat(String stringOne, String stringTwo) {
+//                return stringOne.toUpperCase() + stringTwo.toUpperCase();
+//            }
+//        }, employees.get(0).getName(), employees.get(1).getName());
+//        System.out.println(sillyString);
+
+        UpperConcat upperConcat = (stringOne, stringTwo) ->
+                stringOne.toUpperCase() + " " + stringTwo.toUpperCase();
+
+        String sillyString = doStringStuff(upperConcat,
+                employees.get(0).getName(),
+                employees.get(1).getName());
+
+        System.out.println(sillyString);
+    }
+
+    public final static String doStringStuff(UpperConcat uc, String stringOne, String stringTwo) {
+        return uc.upperAndConcat(stringOne, stringTwo);
     }
 }
 
@@ -97,4 +122,8 @@ class Employee {
     public void setAge(int age) {
         this.age = age;
     }
+}
+
+interface UpperConcat {
+    public String upperAndConcat(String stringOne, String stringTwo);
 }

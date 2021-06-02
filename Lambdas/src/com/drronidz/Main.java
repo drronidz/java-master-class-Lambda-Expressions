@@ -5,6 +5,7 @@ package com.drronidz;/*
     CREATED ON : 11:37 PM
 */
 
+import java.awt.desktop.PreferencesEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -33,10 +34,10 @@ public class Main {
 
         System.out.println("######################################");
 
-        Employee john = new Employee("John Doe",30);
-        Employee tim = new Employee("Tim Buchalka",21);
-        Employee sam = new Employee("Sam Loe",40);
-        Employee snow = new Employee("Snow White",22);
+        Employee john = new Employee("John Doe", 30);
+        Employee tim = new Employee("Tim Buchalka", 21);
+        Employee sam = new Employee("Sam Loe", 40);
+        Employee snow = new Employee("Snow White", 22);
 
         List<Employee> employees = new ArrayList<>();
         employees.add(john);
@@ -76,19 +77,26 @@ public class Main {
 //        }, employees.get(0).getName(), employees.get(1).getName());
 //        System.out.println(sillyString);
 
-        UpperConcat upperConcat = (stringOne, stringTwo) ->
-                stringOne.toUpperCase() + " " + stringTwo.toUpperCase();
+        UpperConcat upperConcat = (stringOne, stringTwo) -> {
+            return stringOne.toUpperCase() + " " + stringTwo.toUpperCase();
+        };
+
 
         String sillyString = doStringStuff(upperConcat,
                 employees.get(0).getName(),
                 employees.get(1).getName());
 
         System.out.println(sillyString);
+
+        AnotherClass anotherClass = new AnotherClass();
+        String s = anotherClass.doSomething();
+        System.out.println(s);
     }
 
     public final static String doStringStuff(UpperConcat uc, String stringOne, String stringTwo) {
         return uc.upperAndConcat(stringOne, stringTwo);
     }
+
 }
 
 class CodeToRun implements Runnable {
@@ -127,3 +135,25 @@ class Employee {
 interface UpperConcat {
     public String upperAndConcat(String stringOne, String stringTwo);
 }
+
+class AnotherClass {
+    public String doSomething() {
+
+        int i = 0;
+
+        UpperConcat uc = (stringOne, stringTwo) -> {
+            System.out.println("The lambda expression's class is " + getClass().getSimpleName());
+            String result = stringOne.toUpperCase() + " " + stringTwo.toUpperCase();
+            return result;
+        };
+
+        System.out.println("The AnotherClass class's name is " + getClass().getSimpleName());
+
+
+        System.out.println("i = " + i);
+
+        return Main.doStringStuff(uc, "String1,", "String2");
+
+    }
+}
+

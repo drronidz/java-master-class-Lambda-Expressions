@@ -47,9 +47,24 @@ public class Main {
 
         System.out.println("##################Without Sorting####################");
 
-        for (Employee employee : employees) {
+        employees.forEach(employee -> {
             System.out.println(employee.getName());
-        }
+            System.out.println(employee.getAge());
+        });
+
+//        for (Employee employee : employees) {
+//            System.out.println(employee.getName());
+//            System.out.println(employee.getAge());
+//            new Thread(() -> System.out.println(employee.getAge())).start();
+//        }
+//        System.out.println("****************************************");
+//        Employee employee;
+//
+////        for(int i=0; i<employees.size(); i++) {
+////            employee = employees.get(i);
+////            System.out.println(employee.getName());
+////            new Thread(() -> System.out.println(employee.getAge())).start();
+////        }
 
         System.out.println("##################With Sorting####################");
 
@@ -141,19 +156,31 @@ class AnotherClass {
 
         int i = 0;
 
+
         UpperConcat uc = (stringOne, stringTwo) -> {
             System.out.println("The lambda expression's class is " + getClass().getSimpleName());
+            System.out.println("i in the lambda expression = " + i);
             String result = stringOne.toUpperCase() + " " + stringTwo.toUpperCase();
             return result;
         };
 
+
         System.out.println("The AnotherClass class's name is " + getClass().getSimpleName());
-
-
-        System.out.println("i = " + i);
-
         return Main.doStringStuff(uc, "String1,", "String2");
+    }
 
+    public void printValue() {
+        int number = 25;
+        Runnable runnable = () -> {
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("The value is " + number);
+        };
+
+        new Thread(runnable).start();
     }
 }
 

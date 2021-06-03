@@ -5,13 +5,11 @@ package com.drronidz;/*
     CREATED ON : 3:34 PM
 */
 
+import java.net.FileNameMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.function.Function;
-import java.util.function.IntPredicate;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
+import java.util.function.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -96,6 +94,32 @@ public class Main {
                 System.out.println(getAName(getLastName, employee));
             }
         }
+
+        System.out.println("====================================");
+
+        Function<Employee, String> upperCase = employee
+                -> employee.getName().toUpperCase();
+        Function<String, String> firstName = name
+                -> name.substring(0, name.indexOf(' '));
+        Function chainedFunction = upperCase.andThen(firstName);
+        System.out.println(chainedFunction.apply(employees.get(0)));
+
+        System.out.println("====================================");
+
+        BiFunction<String, Employee, String> concatAge = (String name, Employee employee)
+                -> name.concat(" " + employee.getAge());
+
+        String upperName = upperCase.apply(employees.get(0));
+        System.out.println(concatAge.apply(upperName, employees.get(0)));
+
+        IntUnaryOperator intUnaryOperator = i -> i + 5;
+        System.out.println(intUnaryOperator.applyAsInt(10));
+
+        Consumer<String>  consumerOne = s -> s.toUpperCase();
+        Consumer<String>  consumerTwo = s -> System.out.println(s);
+        consumerOne.andThen(consumerTwo).accept("Hello, World!");
+
+
 
     }
 

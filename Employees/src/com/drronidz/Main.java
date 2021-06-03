@@ -5,10 +5,10 @@ package com.drronidz;/*
     CREATED ON : 3:34 PM
 */
 
-import java.lang.ref.PhantomReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Function;
 import java.util.function.IntPredicate;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -21,7 +21,7 @@ public class Main {
         Employee tim = new Employee("Tim Buchalka", 21);
         Employee sam = new Employee("Sam Loe", 40);
         Employee snow = new Employee("Snow White", 22);
-        Employee show = new Employee("Show Luck", 26);
+        Employee show = new Employee("Luck Show", 26);
         Employee cavani = new Employee("Edison Cavani", 34);
 
         List<Employee> employees = new ArrayList<>();
@@ -59,15 +59,48 @@ public class Main {
 
         System.out.println("====================================");
         Random random = new Random();
-        for(int i=0; i<10; i++) {
+        for (int i = 0; i < 10; i++) {
             System.out.println(random.nextInt(1000));
         }
 
         System.out.println("====================================");
         Supplier<Integer> randomSupplier = () -> random.nextInt(1000);
-        for(int i=0; i<10; i++) {
+        for (int i = 0; i < 10; i++) {
             System.out.println(randomSupplier.get());
         }
+
+        System.out.println("====================================");
+        employees.forEach(employee -> {
+            String lastName = employee.getName().substring(employee.getName().indexOf(' ') + 1);
+            System.out.println("Last Name is " + lastName);
+        });
+
+        System.out.println("====================================");
+
+        Function<Employee, String> getLastName = (Employee employee) ->
+                employee.getName().substring(employee.getName().indexOf(' ') + 1);
+
+        String lastName = getLastName.apply(employees.get(1));
+        System.out.println(lastName);
+
+        System.out.println("====================================");
+
+        Function<Employee, String>  getFirstName = (Employee employee) ->
+                employee.getName().substring(0, employee.getName().indexOf(' '));
+
+        Random randomOne = new Random();
+        for(Employee employee : employees) {
+            if(randomOne.nextBoolean()) {
+                System.out.println(getAName(getFirstName, employee));
+            } else {
+                System.out.println(getAName(getLastName, employee));
+            }
+        }
+
+    }
+
+    private static String getAName(Function<Employee, String> getName, Employee employee) {
+        return getName.apply(employee);
     }
 
     private static void printEmployeeByAge(List<Employee> employees,
